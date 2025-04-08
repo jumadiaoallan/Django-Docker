@@ -48,7 +48,7 @@ docker-compose exec web python django_project/manage.py createsuperuser
 ## 🛠 Project Structure
 
 ```
-Django-Docker             # Main project directory
+Django-Docker              # Main project directory
 ├── django_project/        # Django app source code
 |   ├── app/               # Django app directory, #you can create multiple apps under django_project folder
 |   |   ├── __init__.py    # Python package marker
