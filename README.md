@@ -33,7 +33,7 @@ POSTGRES_PORT=5432
 docker-compose up --build
 ```
 
-### 4 Install Pre-commit hooks
+### 4 Install pre-commit to get the .git hooks
 ```bash
 pre-commit install
 ```
