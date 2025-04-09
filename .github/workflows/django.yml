@@ -21,6 +21,12 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Check secrets
+      run: |
+        if [ -z "${{ secrets.POSTGRES_DB }}" ]; then echo "POSTGRES_DB is not set"; exit 1; fi
+        if [ -z "${{ secrets.POSTGRES_USER }}" ]; then echo "POSTGRES_USER is not set"; exit 1; fi
+        if [ -z "${{ secrets.POSTGRES_PASSWORD }}" ]; then echo "POSTGRES_PASSWORD is not set"; exit 1; fi
+
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
@@ -28,11 +34,11 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
+        python3 -m pip install --upgrade pip
         pip install -r requirements.txt
 
     - name: Run tests
       env:
         DATABASE_URL: ${{ secrets.DATABASE_URL }}
       run: |
-        python django_project/manage.py test
+        python3 django_project/manage.py test
