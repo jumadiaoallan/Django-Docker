@@ -29,10 +29,10 @@ jobs:
     - name: Generate .env file
       run: |
         echo "DEBUG=True" > .env
-        echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
-        echo "DATABASE_NAME=${{ secrets.POSTGRES_DB }}" >> .env
-        echo "DATABASE_USER=${{ secrets.POSTGRES_USER }}" >> .env
-        echo "DATABASE_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env
+        echo "SECRET_KEY='6m9cudma*vj!@(y2*nc45az*x*6cjdcjr4@_osfuw^yt(lpux$'" >> .env
+        echo "DATABASE_NAME=django_db" >> .env
+        echo "DATABASE_USER=POSTGRES_USER=root" >> .env
+        echo "DATABASE_PASSWORD=secure_password" >> .env
         echo "DATABASE_HOST=localhost" >> .env
         echo "DATABASE_PORT=5432" >> .env
 
