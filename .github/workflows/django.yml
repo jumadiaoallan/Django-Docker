@@ -1,20 +1,14 @@
 name: Django Development
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+on: [push, pull_request]
 
 jobs:
-  development:
+  test:
     runs-on: ubuntu-latest
 
     services:
-      db:
-        image: postgres:15
+      postgres:
+        image: postgres:latest
         env:
           POSTGRES_USER: root
           POSTGRES_PASSWORD: secure_password
@@ -22,17 +16,20 @@ jobs:
         ports:
           - 5432:5432
         options: >-
-          --health-cmd="pg_isready -U root"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: postgres://root:secure_password@localhost:5432/django_db
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v2
         with:
           python-version: '3.13'
 
@@ -41,30 +38,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Wait for PostgreSQL to be ready
+      - name: Create database (if not exists)
         run: |
-          for i in {1..15}; do
-            if pg_isready -h localhost -p 5432 -U root; then
-              echo "PostgreSQL is ready!"
-              break
-            fi
-            echo "Waiting for PostgreSQL..."
-            sleep 2
-          done
-
-      - name: Create PostgreSQL role
-        run: |
-          psql -h localhost -p 5432 -U root -c "CREATE ROLE django_db WITH LOGIN PASSWORD 'secure_password';"
-          psql -h localhost -p 5432 -U root -c "ALTER ROLE django_db CREATEDB;"
-
-      - name: Run migrations
-        env:
-          DATABASE_URL: postgres://root:secure_password@localhost:5432/django_db
-        run: |
-          python django_project/manage.py migrate
+          sudo apt-get install -y postgresql-client
+          psql -h localhost -U root -c "CREATE DATABASE IF NOT EXISTS django_db;"
 
       - name: Run tests
-        env:
-          DATABASE_URL: postgres://root:secure_password@localhost:5432/django_db
         run: |
+          python django_project/manage.py migrate
           python django_project/manage.py test
