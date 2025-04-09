@@ -48,30 +48,34 @@ docker-compose exec web python django_project/manage.py createsuperuser
 ## 🛠 Project Structure
 
 ```
-Django-Docker              # Main project directory
-├── django_project/        # Django app source code
-|   ├── app/               # Django app directory, #you can create multiple apps under django_project folder
-|   |   ├── __init__.py    # Python package marker
-|   |   ├── admin.py       # Admin interface
-|   |   ├── apps.py        # App configuration
-|   |   ├── migrations/    # Database migrations
-|   |   ├── models.py      # Database models
-|   |   ├── tests.py       # Unit tests
-|   |   ├── urls.py        # URL routing for the app, #need to create this file
-|   |   ├── views.py       # Views for the app
-|   |   └── admin.py       # Admin interface
-|   ├── django_project/    # Django project directory
-|   |   ├── __init__.py    # Python package marker
-|   |   ├── asgi.py        # ASGI entry point
-|   |   ├── settings.py    # Django settings
-|   |   ├── urls.py        # URL routing
-|   |   └── wsgi.py        # WSGI entry point
-|   └── manage.py          # Django management script
-├── .env                   # Environment variables
-├── Dockerfile             # Docker image config for Django
-├── docker-compose.yml     # Docker services
-├── requirements.txt       # Python dependencies
-└── README.md              # Project docs
+Django-Docker                   # Main project directory
+├── .git/*                      # Git Pre-commit hooks # Hidden for security reasons
+├── django_project/             # Django app source code
+|   ├── app/                    # Django app directory, #you can create multiple apps under django_project folder
+|   |   ├── __init__.py         # Python package marker
+|   |   ├── admin.py            # Admin interface
+|   |   ├── apps.py             # App configuration
+|   |   ├── migrations/         # Database migrations
+|   |   ├── models.py           # Database models
+|   |   ├── tests.py            # Unit tests
+|   |   ├── urls.py             # URL routing for the app, #need to create this file
+|   |   ├── views.py            # Views for the app
+|   |   └── admin.py            # Admin interface
+|   ├── django_project/         # Django project directory
+|   |   ├── __init__.py         # Python package marker
+|   |   ├── asgi.py             # ASGI entry point
+|   |   ├── settings.py         # Django settings
+|   |   ├── urls.py             # URL routing
+|   |   └── wsgi.py             # WSGI entry point
+|   └── manage.py               # Django management script
+├── .env                        # Environment variables
+├── .flake8                     # Flake configuration
+├── .gitignore                  # Git ignore file
+├── .pre-commit-config.yaml     # Pre-commit hooks configuration
+├── Dockerfile                  # Docker image config for Django
+├── docker-compose.yml          # Docker services
+├── requirements.txt            # Python dependencies
+└── README.md                   # Project docs
 ```
 
 ---
@@ -85,6 +89,7 @@ Django-Docker              # Main project directory
 | Run migrations | `docker-compose exec web python django_project/manage.py migrate` |
 | Create superuser | `docker-compose exec web python django_project/manage.py createsuperuser` |
 | Bash into container | `docker-compose exec web bash` |
+| Manually run pre-commit hooks | `docker-compose run --rm web pre-commit run --all-files` |
 
 ---
 
@@ -95,7 +100,11 @@ Django-Docker              # Main project directory
 - PostgreSQL 15
 - Docker & Docker Compose
 - python-dotenv
-
+- pre-commit
+- black
+- flake8
+- isort
+- bandit
 ---
 
 ## 🧹 TODO

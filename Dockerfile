@@ -14,3 +14,6 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 
 # Copy project files
 COPY . /code/
+
+# Install pre-commit and its hooks
+RUN pip install pre-commit && pre-commit install-hooks

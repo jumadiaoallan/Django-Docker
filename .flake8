@@ -1,0 +1,5 @@
+# This is a configuration file for flake8, a tool for checking the style guide enforcement in Python code.
+# It specifies the maximum line length and excludes certain directories from being checked.
+[flake8]
+max-line-length = 120
+exclude = .git,__pycache__,venv,env,build,dist,migrations
