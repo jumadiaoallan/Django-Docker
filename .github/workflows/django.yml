@@ -10,9 +10,9 @@ jobs:
       db:
         image: postgres:15
         env:
-          POSTGRES_DB: django_db
-          POSTGRES_USER: root
-          POSTGRES_PASSWORD: secure_password
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
         ports:
           - "5432:5432"
         volumes:
@@ -33,6 +33,6 @@ jobs:
 
     - name: Run tests
       env:
-        DATABASE_URL: postgres://root:secure_password@localhost:5432/django_db
+        DATABASE_URL: ${{ secrets.DATABASE_URL }}
       run: |
         python django_project/manage.py test
