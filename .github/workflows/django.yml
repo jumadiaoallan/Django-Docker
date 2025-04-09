@@ -41,5 +41,4 @@ jobs:
     - name: Run migrations
       run: |
         python django_project/manage.py migrate
-      env:
-        COOKING_CORE_SETTING_DATABASES: '{"default":{"HOST":"db"}}'
+        python django_project/manage.py test
