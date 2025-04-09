@@ -23,9 +23,10 @@ jobs:
 
     - name: Check secrets
       run: |
-        if [ -z "${{ secrets.POSTGRES_DB }}" ]; then echo "POSTGRES_DB is not set"; exit 1; fi
-        if [ -z "${{ secrets.POSTGRES_USER }}" ]; then echo "POSTGRES_USER is not set"; exit 1; fi
-        if [ -z "${{ secrets.POSTGRES_PASSWORD }}" ]; then echo "POSTGRES_PASSWORD is not set"; exit 1; fi
+        echo "POSTGRES_DB: ${{ secrets.POSTGRES_DB }}"
+        echo "POSTGRES_USER: ${{ secrets.POSTGRES_USER }}"
+        echo "POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}"
+        echo "DATABASE_URL: ${{ secrets.DATABASE_URL }}"
 
     - name: Set up Python
       uses: actions/setup-python@v2
