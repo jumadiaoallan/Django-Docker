@@ -21,10 +21,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Access database table
-      run: |
-        echo "SELECT 'Database connection successful!';" | PGPASSWORD=${{ secrets.POSTGRES_PASSWORD }} psql -h localhost -U ${{ secrets.POSTGRES_USER }} -d ${{ secrets.POSTGRES_DB }}
-
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
@@ -41,3 +37,7 @@ jobs:
           echo "Waiting for PostgreSQL to be ready..."
           sleep 1
         done
+
+    - name: Run migrations
+      run: |
+        python django_project/manage.py migrate
