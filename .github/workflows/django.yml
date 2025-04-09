@@ -5,6 +5,8 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: python:3.13
 
     services:
       db:
@@ -38,23 +40,8 @@ jobs:
           sleep 1
         done
 
-  migrate:
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.13'
-
-    - name: Install dependencies
-      run: |
-        python3 -m pip install --upgrade pip
-        pip install -r requirements.txt
-
     - name: Run migrations
       run: |
-        python manage.py migrate
+        python django_project/manage.py migrate
+      env:
+        COOKING_CORE_SETCOOKING_CORE_SETTING_DATABASES: '{"default":{"HOST":"db"}}'
