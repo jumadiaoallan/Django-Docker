@@ -1,0 +1,42 @@
+# This file is used to configure pre-commit hooks for the project.
+
+# Pre-commit hooks are scripts that run automatically before a commit is made.
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: debug-statements
+
+# Black, Flake8, and isort are popular Python code formatting and linting tools.
+# They help ensure that the code adheres to style guidelines and is properly formatted.
+  - repo: https://github.com/psf/black
+    rev: 25.1.0
+    hooks:
+      - id: black
+        language_version: python3
+
+# This hook is used to check for Python code style violations using Flake8.
+# It helps identify potential issues in the code, such as unused imports or variables.
+  - repo: https://github.com/PyCQA/flake8
+    rev: 7.2.0
+    hooks:
+      - id: flake8
+
+# This hook is used to sort imports in Python files using isort.
+# It helps maintain a consistent import order and can automatically fix import issues.
+  - repo: https://github.com/PyCQA/isort
+    rev: 6.0.1
+    hooks:
+      - id: isort
+
+# This hook is used to check for security vulnerabilities in Python code using Bandit.
+# It scans the code for common security issues and provides recommendations for improvement.
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.7
+    hooks:
+      - id: bandit
+        args: ["-r", "."]
