@@ -33,12 +33,17 @@ POSTGRES_PORT=5432
 docker-compose up --build
 ```
 
-### 4. Run migrations
+### 4 Install Pre-commit hooks
+```bash
+pre-commit install
+```
+
+### 5. Run migrations
 ```bash
 docker-compose exec web python django_project/manage.py migrate
 ```
 
-### 5. Create a superuser (optional)
+### 6. Create a superuser (optional)
 ```bash
 docker-compose exec web python django_project/manage.py createsuperuser
 ```
