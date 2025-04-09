@@ -85,7 +85,7 @@ DATABASES = {
         "NAME": os.getenv("POSTGRES_DB") or "django_db",
         "USER": os.getenv("POSTGRES_USER") or "root",
         "PASSWORD": os.getenv("POSTGRES_PASSWORD", "secure_password"),
-        "HOST": os.getenv("POSTGRES_HOST") or "db",
+        "HOST": os.getenv("POSTGRES_HOST") or "localhost",
         "PORT": os.getenv("POSTGRES_PORT") or "5432",
     }
 }
