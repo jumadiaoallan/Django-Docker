@@ -24,7 +24,7 @@ jobs:
         options: >-
           --health-cmd="pg_isready -U postgres"
           --health-interval=10s
-          --health-timeout=5s
+          --health-timeout=5
           --health-retries=5
 
     steps:
@@ -45,10 +45,10 @@ jobs:
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/django_dev
         run: |
-          python manage.py migrate
+          python django_project/manage.py migrate
 
       - name: Run tests
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/django_dev
         run: |
-          python manage.py test
+          python django_project/manage.py test
