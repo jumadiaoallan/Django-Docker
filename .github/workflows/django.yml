@@ -52,6 +52,7 @@ jobs:
       run: |
         echo "Current directory contents:"
         ls -la
+        cat .env
 
     - name: Set up database
       run: |
