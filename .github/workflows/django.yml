@@ -38,12 +38,6 @@ jobs:
           sleep 1
         done
 
-    - name: Check Folder List
-      run: |
-        echo "Current directory contents:"
-        ls -la
-        cat .env
-
     - name: Set up database
       run: |
         echo "Setting up the database..."
