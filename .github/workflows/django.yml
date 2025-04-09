@@ -22,7 +22,7 @@ jobs:
         ports:
           - 5432:5432
         options: >-
-          --health-cmd="pg_isready -U django_db"
+          --health-cmd="pg_isready -U root"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
@@ -44,7 +44,7 @@ jobs:
       - name: Wait for PostgreSQL to be ready
         run: |
           for i in {1..15}; do
-            if pg_isready -h localhost -p 5432 -U django_db; then
+            if pg_isready -h localhost -p 5432 -U root; then
               echo "PostgreSQL is ready!"
               break
             fi
