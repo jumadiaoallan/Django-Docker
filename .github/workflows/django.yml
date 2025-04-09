@@ -21,12 +21,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Check secrets
+    - name: Access database table
       run: |
-        echo "POSTGRES_DB: ${{ secrets.POSTGRES_DB }}"
-        echo "POSTGRES_USER: ${{ secrets.POSTGRES_USER }}"
-        echo "POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}"
-        echo "DATABASE_URL: ${{ secrets.DATABASE_URL }}"
+        echo "SELECT 'Database connection successful!';" | PGPASSWORD=${{ secrets.POSTGRES_PASSWORD }} psql -h localhost -U ${{ secrets.POSTGRES_USER }} -d ${{ secrets.POSTGRES_DB }}
 
     - name: Set up Python
       uses: actions/setup-python@v2
