@@ -16,14 +16,14 @@ jobs:
       db:
         image: postgres:15
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: django_dev
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: secure_password
+          POSTGRES_DB: django_db
         ports:
           - 5432:5432
         options: >-
-          --health-cmd="pg_isready -U postgres"
-          --health-interval=10s
+          --health-cmd="pg_isready -U root"
+          --health-interval=10
           --health-timeout=5
           --health-retries=5
 
@@ -34,7 +34,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: '3.13'
 
       - name: Install dependencies
         run: |
@@ -43,12 +43,12 @@ jobs:
 
       - name: Run migrations
         env:
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/django_dev
+          DATABASE_URL: postgres://root:secure_password@localhost:5432/django_db
         run: |
           python django_project/manage.py migrate
 
       - name: Run tests
         env:
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/django_dev
+          DATABASE_URL: postgres://root:secure_password@localhost:5432/django_db
         run: |
           python django_project/manage.py test
