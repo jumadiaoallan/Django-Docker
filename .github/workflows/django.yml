@@ -57,4 +57,4 @@ jobs:
 
     - name: Run migrations
       run: |
-        python django_project/manage.py migrate
+        python manage.py migrate
