@@ -23,4 +23,4 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 COPY . /code/
 
 # Install pre-commit
-RUN pip install pre-commit
+RUN pip install pre-commit && pre-commit install
