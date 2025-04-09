@@ -38,6 +38,12 @@ jobs:
         python3 -m pip install --upgrade pip
         pip install -r requirements.txt
 
+    - name: Run migrations
+      env:
+        DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      run: |
+        python3 django_project/manage.py migrate
+
     - name: Run tests
       env:
         DATABASE_URL: ${{ secrets.DATABASE_URL }}
