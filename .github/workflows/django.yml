@@ -48,6 +48,16 @@ jobs:
           sleep 1
         done
 
+    - name: Check Folder List
+      run: |
+        echo "Current directory contents:"
+        ls -la
+
+    - name: Set up database
+      run: |
+        echo "Setting up the database..."
+        # Add any necessary database setup commands here
+
     - name: Run migrations
       run: |
         python django_project/manage.py migrate
