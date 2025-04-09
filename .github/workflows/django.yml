@@ -52,10 +52,6 @@ jobs:
             sleep 2
           done
 
-      - name: Create database
-        run: |
-          sudo -u postgres psql -c "CREATE DATABASE django_db;"
-
       - name: Run migrations
         env:
           DATABASE_URL: postgres://root:secure_password@localhost:5432/django_db
