@@ -26,6 +26,16 @@ jobs:
       with:
         python-version: '3.13'
 
+    - name: Generate .env file
+      run: |
+        echo "DEBUG=True" > .env
+        echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
+        echo "DATABASE_NAME=${{ secrets.POSTGRES_DB }}" >> .env
+        echo "DATABASE_USER=${{ secrets.POSTGRES_USER }}" >> .env
+        echo "DATABASE_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env
+        echo "DATABASE_HOST=localhost" >> .env
+        echo "DATABASE_PORT=5432" >> .env
+
     - name: Install dependencies
       run: |
         python3 -m pip install --upgrade pip
@@ -41,4 +51,7 @@ jobs:
     - name: Run migrations
       run: |
         python django_project/manage.py migrate
+
+    - name: Run tests
+      run: |
         python django_project/manage.py test
