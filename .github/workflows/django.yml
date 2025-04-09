@@ -52,6 +52,11 @@ jobs:
             sleep 2
           done
 
+      - name: Create PostgreSQL role
+        run: |
+          psql -h localhost -p 5432 -U root -c "CREATE ROLE django_db WITH LOGIN PASSWORD 'secure_password';"
+          psql -h localhost -p 5432 -U root -c "ALTER ROLE django_db CREATEDB;"
+
       - name: Run migrations
         env:
           DATABASE_URL: postgres://root:secure_password@localhost:5432/django_db
