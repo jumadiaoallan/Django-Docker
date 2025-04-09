@@ -5,8 +5,6 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image: python:3.13
 
     services:
       db:
@@ -42,6 +40,6 @@ jobs:
 
     - name: Run migrations
       run: |
-        python django_project/manage.py migrate
+        python manage.py migrate
       env:
-        COOKING_CORE_SETCOOKING_CORE_SETTING_DATABASES: '{"default":{"HOST":"db"}}'
+        COOKING_CORE_SETTING_DATABASES: '{"default":{"HOST":"db"}}'
