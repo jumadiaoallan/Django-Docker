@@ -33,10 +33,13 @@ jobs:
 
     - name: Wait for PostgreSQL to be ready
       run: |
-        until pg_isready -h localhost -p 5432; do
-          echo "Waiting for PostgreSQL to be ready..."
-          sleep 1
+        for i in {1..60}; do
+          pg_isready -h localhost -p 5432 && break || echo "Waiting for PostgreSQL..." && sleep 2
         done
+        if ! pg_isready -h localhost -p 5432; then
+          echo "PostgreSQL failed to start in time" >&2
+          exit 1
+        fi
 
     - name: Set up database
       run: |
@@ -48,17 +51,17 @@ jobs:
         POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
         POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
         POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-        POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
-        POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
+        POSTGRES_HOST: localhost
+        POSTGRES_PORT: 5432
       run: |
         python django_project/manage.py migrate
 
     - name: Run tests
       env:
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
-          POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
+        POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+        POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+        POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        POSTGRES_HOST: localhost
+        POSTGRES_PORT: 5432
       run: |
         python django_project/manage.py test
