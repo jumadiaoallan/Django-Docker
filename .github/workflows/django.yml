@@ -1,0 +1,67 @@
+name: Django Development
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      db:
+        image: postgres:15
+        env:
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        ports:
+          - "5432:5432"
+        volumes:
+          - postgres_data:/var/lib/postgresql/data
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.13'
+
+    - name: Install dependencies
+      run: |
+        python3 -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Wait for PostgreSQL to be ready
+      run: |
+        for i in {1..60}; do
+          pg_isready -h localhost -p 5432 && break || echo "Waiting for PostgreSQL..." && sleep 2
+        done
+        if ! pg_isready -h localhost -p 5432; then
+          echo "PostgreSQL failed to start in time" >&2
+          exit 1
+        fi
+
+    - name: Set up database
+      run: |
+        echo "Setting up the database..."
+        # Add any necessary database setup commands here
+
+    - name: Run migrations
+      env:
+        POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+        POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+        POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        POSTGRES_HOST: localhost
+        POSTGRES_PORT: 5432
+      run: |
+        python django_project/manage.py migrate
+
+    - name: Run tests
+      env:
+        POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+        POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+        POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        POSTGRES_HOST: localhost
+        POSTGRES_PORT: 5432
+      run: |
+        python django_project/manage.py test
